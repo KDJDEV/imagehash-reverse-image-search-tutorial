@@ -237,14 +237,10 @@ Once your database is populated, you can skip to [Step 3](#step-3), which explai
 <div id="reverse-wikipedia-database">
 
 ### Reverse Wikipedia Database
-Importing my Reverse Wikipedia database dump into your database is quite simple. First, download the ```reverseWikipediaDump.sql``` file on from my website to your database machine. Don't worry, it's only 1.5 GB. You can also download it from this repository if you prefer, but GitHub LFS downloads tend to hang(at least for me), so it's sort of a hit or miss.
+Importing my Reverse Wikipedia database dump into your database is quite simple. First, download the ```reverseWikipediaDump.sql``` file from my website to your database machine. Don't worry, it's only 1.5 GB.
 #### Downloads
 ```bash
 wget https://api.reversewikipedia.com/reverseWikipediaDump.sql
-```
-or
-```bash
-wget https://github.com/KDJDEV/probable-octo-chainsaw/raw/main/reverseWikipediaDump.sql
 ```
 
 
