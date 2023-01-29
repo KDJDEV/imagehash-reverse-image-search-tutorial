@@ -307,7 +307,14 @@ SELECT url FROM hashes WHERE hash <@ (2165990786990419763, 3);
 ```
 The choice of 3 as a maximum hamming distance is of course arbitrary here.
 
-Here is some code that can query an image from a file:
+Before running the following code, you will need to install these packages if you haven't already in a previous step:
+```bash
+apt install python3 python3-pip
+pip install imagehash psycopg2
+```
+> **You must have already installed the [postgresql-server-dev](#build-tools) package in the previous step for the psycopg2 package to install correctly.**
+
+Here is some code that can query an image from a file. 
 ```py
 import psycopg2
 from PIL import Image
