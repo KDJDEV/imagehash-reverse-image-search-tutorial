@@ -384,6 +384,6 @@ Incidentally, here are some additional changes that I needed to get this solutio
 ### Contributing
 If you think you can make this tutorial more informative, please open a pull request!
 
-If you encounter a bug or have a question, please open a GitHub issue.
+If you find a problem with this tutorial or have a question, please open a GitHub issue.
 
 </div>
