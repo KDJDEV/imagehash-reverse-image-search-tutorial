@@ -109,6 +109,13 @@ gcc -Wall -Wmissing-prototypes -Wpointer-arith -Wdeclaration-after-statement -We
 0
 ```
 After running ```echo $?```, you should get a status code of 0 if these commands succeeded. The pg-spgist_hamming extension should now be installed.
+
+Finally, before moving on to the next step, install *Python*. Then install both the *imagehash* and *psycopg2*(which allows us to connect to Postgres through Python) libraries through *pip*.
+```bash
+apt install python3 python3-pip
+pip install imagehash psycopg2
+```
+These will be necessary in the next step.
 </div>
 <div id="step-2">
 
@@ -180,11 +187,7 @@ CREATE INDEX
 Now the database is truly all setup, and we can move on to the Python code.
 #### Populating the Database
 Again, I'll be assuming that you have a directory of images you are iterating over, but you can modify this code to your needs.
-First, if you haven't already, install Python. Then install both the imagehash and psycopg2(which allows us to connect to Postgres through Python) libraries through pip.
-```bash
-apt install python3 python3-pip
-pip install imagehash psycopg2
-```
+
 > **You must have already installed the [postgresql-server-dev](#build-tools) package in the previous step for the psycopg2 package to install correctly.**
 
 Now, we'll write the code to populate the database. Here is an example of a script that iterates over all of the images in a directory, and adds them to the database.
@@ -307,11 +310,6 @@ SELECT url FROM hashes WHERE hash <@ (2165990786990419763, 3);
 ```
 The choice of 3 as a maximum hamming distance is of course arbitrary here.
 
-Before running the following code, you will need to install these packages if you haven't already in a previous step:
-```bash
-apt install python3 python3-pip
-pip install imagehash psycopg2
-```
 > **You must have already installed the [postgresql-server-dev](#build-tools) package in the previous step for the psycopg2 package to install correctly.**
 
 Here is some code that can query an image from a file. 
