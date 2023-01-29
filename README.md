@@ -1,5 +1,5 @@
 # Creating a reverse image search with Python imagehash
-test
+test2
 Image hashing is essentially a sort of ultra-high compression for images, where images are transformed into hashes (or digests), typically of a fixed length of around 64 bits, where similar images should yield similar hashes. There are many practical applications of image hashing, but one of the most obvious is for *reverse image searches*. 
 
 In this tutorial, you'll be guided through the whole process of creating a reverse image search using the Python *[imagehash](https://github.com/JohannesBuchner/imagehash) library by Johannes Buchner* for the hashes themselves.
