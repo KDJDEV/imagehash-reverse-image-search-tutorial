@@ -248,7 +248,7 @@ Once you've downloaded the dump, load it into your database with this command:
 ```bash
 sudo -u postgres psql postgres < reverseWikipediaDump.sql
 ```
-This command can take a while. (I've found anywhere from 1 minute to around 20 minutes depending on your hardware) Here, ```sudo -u postgres``` runs the command as the postgres user, which is required to access the database, ```psql``` is the CLI tool that allows you to connect to PostgreSQL, and ```postgres < reverseWikipediaDump.sql``` imports reverseWikipediaDump.sql into the "postgres" database.
+This command can take a while. (I've found anywhere from 1 minute to around an hour depending on your hardware) Here, ```sudo -u postgres``` runs the command as the postgres user, which is required to access the database, ```psql``` is the CLI tool that allows you to connect to PostgreSQL, and ```postgres < reverseWikipediaDump.sql``` imports reverseWikipediaDump.sql into the "postgres" database.
 
 The database you have imported is very simple in structure.
 Each row in the database represents one image. Here is what any one row looks like:
