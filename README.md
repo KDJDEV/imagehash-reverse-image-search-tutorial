@@ -59,6 +59,8 @@ Obviously, you'll **replace mypassword with a secure password for your database*
 
 >By default, PostgreSQL does not allow connections from external hosts, but it's still a good practice to set a password.
 
+<div id="version-number">
+
 While you are logged into Postgres, **note the version number of your Postgres installation**, as it will be important later. You can find it by running:
 ```sql
 SELECT VERSION();
@@ -70,6 +72,7 @@ PostgreSQL 13.9 (Debian 13.9-0+deb11u1) on x86_64-pc-linux-gnu, compiled by gcc 
 (1 row)
 ```
 Once you have noted the version number, you can quit back to your normal terminal with ```q```, and then ```quit```.
+</div>
 
 ### Installing pg-spgist_hamming
 We will be installing the [pg-spgist_hamming](https://github.com/fake-name/pg-spgist_hamming/) extension for Postgres. This extension provides us with a [bk-tree](https://en.wikipedia.org/wiki/BK-tree) index that will immensely speed-up the image search. This isn't an absolute requirement for any reverse image search, and there are many possible ways you could achieve a similar speed-up, but it is used here as it works well with the imagehash library.
@@ -97,7 +100,7 @@ Resolving deltas: 100% (209/209), done.
 ```
 
 Now we can compile pg-spgist_hamming and install it so that it can be used by our PostgreSQL database.
-First, install the build-essential package, which gives us the necessary compiling tools to build pg-spgist_hamming, and postgresql-server-dev-XX which provides more files necessary for compilation. ***It is very important to replace XX in postgresql-server-dev-XX with the version number of your PostgreSQL installation.***
+First, install the build-essential package, which gives us the necessary compiling tools to build pg-spgist_hamming, and postgresql-server-dev-XX which provides more files necessary for compilation. ***It is very important to replace XX in postgresql-server-dev-XX with the version number of your PostgreSQL installation.*** You should noted this [earlier](#version-number).
 
 <div id="build-tools">For instance, since I'm using PostgreSQL v13.9, *XX* is replaced with *13*, and I install the postgresql-server-dev-13 package.
 
