@@ -297,7 +297,7 @@ Example result:
 13602297 |  1018730239534117774 | Frazier_Brook
 16175955 | -5707918106681791729 | Härryda_Municipality
 
-The *url* is actually just a portion of a full Wikipedia page article. To visit the corresponding article in a web browser, you will need to prepend ```https://en.wikipedia.org/wiki/```. This is so that the database takes up less space.
+The *url* is actually just a portion of a full Wikipedia page article. To visit the corresponding article in a web browser, you will need to prepend ```https://en.wikipedia.org/wiki/```. This truncation is so that the database takes up less space.
 
 The database should now be all setup! Now you can skip to [Step 3](#step-3), where you will learn how to query this database.
 </div>
