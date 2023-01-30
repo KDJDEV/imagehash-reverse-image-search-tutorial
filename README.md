@@ -102,7 +102,9 @@ Resolving deltas: 100% (209/209), done.
 Now we can compile pg-spgist_hamming and install it so that it can be used by our PostgreSQL database.
 First, install the build-essential package, which gives us the necessary compiling tools to build pg-spgist_hamming, and postgresql-server-dev-XX which provides more files necessary for compilation. ***It is very important to replace XX in postgresql-server-dev-XX with the version number of your PostgreSQL installation.*** You should noted this [earlier](#version-number).
 
-<div id="build-tools">For instance, since I'm using PostgreSQL v13.9, *XX* is replaced with *13*, and I install the postgresql-server-dev-13 package.
+<div id="build-tools">
+
+For instance, since I'm using PostgreSQL v13.9, *XX* is replaced with *13*, and I install the postgresql-server-dev-13 package.
 
 ```bash
 apt install build-essential
@@ -138,6 +140,7 @@ apt install python3 python3-pip
 pip install imagehash psycopg2
 ```
 These will be necessary in the next step.
+> **You must have already installed the [postgresql-server-dev](#build-tools) package in the previous section for the psycopg2 package to install correctly.**
 </div>
 <div id="step-2">
 
@@ -201,9 +204,7 @@ Now the database is truly all setup, and we can move on to the Python code.
 ### Populating the Database
 Again, I'll be assuming that you have a directory of images you are iterating over, but you can modify this code to your needs.
 
-> **You must have already installed the [postgresql-server-dev](#build-tools) package in the previous step for the psycopg2 package to install correctly.**
-
-Now, we'll write the code to populate the database. Here is an example of a script that iterates over all of the images in a directory, and adds them to the database.
+Here is an example of a script that iterates over all of the images in a directory, and adds them to the database.
 ```py
 import psycopg2
 import os
@@ -322,8 +323,6 @@ For example, if I wanted to query for images with a hash similar to *21659907869
 SELECT url FROM hashes WHERE hash <@ (2165990786990419763, 3);
 ```
 The choice of 3 as a maximum hamming distance is of course arbitrary here.
-
-> **You must have already installed the [postgresql-server-dev](#build-tools) package in the previous step for the psycopg2 package to install correctly.**
 
 Here is some code that can query an image from a file. 
 ```py
