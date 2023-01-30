@@ -201,7 +201,7 @@ CREATE INDEX
 ```
 Now the database is truly all setup, and we can move on to the Python code.
 
-### Populating the Database
+### Writing the code
 Again, I'll be assuming that you have a directory of images you are iterating over, but you can modify this code to your needs.
 
 Here is an example of a script that iterates over all of the images in a directory, and adds them to the database.
