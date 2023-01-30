@@ -11,9 +11,9 @@ Specifically, by the end of this tutorial, you'll have an interface that allows 
 ## Table of Contents
 
 * [Prerequisites](#prerequisites)
-* [Step 1 - Installing pg-spgist_hamming](#step-1)
+* [Step 1 - Setup](#step-1)
 * [Step 2 - Populating the Database](#step-2)
-* [Step 3 - Querying the database](#step-3)
+* [Step 3 - Querying the Database](#step-3)
 * [Conclusion](#conclusion)
   
 
@@ -38,8 +38,41 @@ We will install other things later in this tutorial, but these are the most basi
 
 <div id="step-1">
 
-## Step 1 - Installing pg-spgist_hamming
-The first thing we need to do is install the [pg-spgist_hamming](https://github.com/fake-name/pg-spgist_hamming/) extension for Postgres. This extension provides us with a [bk-tree](https://en.wikipedia.org/wiki/BK-tree) index that will immensely speed-up the image search. This isn't an absolute requirement for any reverse image search, and there are many possible ways you could achieve a similar speed-up, but it is used here as it works well with the imagehash library.
+## Step 1 - Setup
+First, let's quickly set a password that you can use to access your database.
+### Setting a password
+First, connect to Postgres:
+```bash
+sudo -u postgres psql
+```
+After running this command, your command prompt should change to ```postgres=#``` to show that you are connected to the "postgres" database. In this tutorial I am leaving the command prompt bit off commands so that they are more easily copied.
+
+<div id="password">
+
+To create a password for the postgres user:
+```sql
+ALTER USER postgres PASSWORD 'mypassword';
+```
+
+Obviously, you'll **replace mypassword with a secure password for your database**. 
+</div>
+
+>By default, PostgreSQL does not allow connections from external hosts, but it's still a good practice to set a password.
+
+While you are logged into Postgres, **note the version number of your Postgres installation**, as it will be important later. You can find it by running:
+```sql
+SELECT VERSION();
+```
+```sql
+**Output**
+
+PostgreSQL 13.9 (Debian 13.9-0+deb11u1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 10.2.1-6) 10.2.1 20210110, 64-bit
+(1 row)
+```
+Once you have noted the version number, you can quit back to your normal terminal with ```q```, and then ```quit```.
+
+### Installing pg-spgist_hamming
+We will be installing the [pg-spgist_hamming](https://github.com/fake-name/pg-spgist_hamming/) extension for Postgres. This extension provides us with a [bk-tree](https://en.wikipedia.org/wiki/BK-tree) index that will immensely speed-up the image search. This isn't an absolute requirement for any reverse image search, and there are many possible ways you could achieve a similar speed-up, but it is used here as it works well with the imagehash library.
 
 > For my database, which contains about 30 million image hashes, a search takes on average around 6 seconds without the index, but only around 100 milliseconds with.
 
@@ -65,21 +98,6 @@ Resolving deltas: 100% (209/209), done.
 
 Now we can compile pg-spgist_hamming and install it so that it can be used by our PostgreSQL database.
 First, install the build-essential package, which gives us the necessary compiling tools to build pg-spgist_hamming, and postgresql-server-dev-XX which provides more files necessary for compilation. ***It is very important to replace XX in postgresql-server-dev-XX with the version number of your PostgreSQL installation.***
-> You can check which version of PostgreSQL you have installed by connecting to PostgreSQL
-> ```bash
-> sudo -u postgres psql
-> ```
-> and then running 
-> ```sql
-> SELECT VERSION();
-> ```
-> ```sql
-> **Output**
->
->PostgreSQL 13.9 (Debian 13.9-0+deb11u1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 10.2.1-6) 10.2.1 20210110, 64-bit
-> (1 row)
-> ```
-> Once you have noted the version number, you can quit back to your normal terminal with ```q```, and then ```quit```.
 
 <div id="build-tools">For instance, since I'm using PostgreSQL v13.9, *XX* is replaced with *13*, and I install the postgresql-server-dev-13 package.
 
@@ -110,6 +128,7 @@ gcc -Wall -Wmissing-prototypes -Wpointer-arith -Wdeclaration-after-statement -We
 ```
 After running ```echo $?```, you should get a status code of 0 if these commands succeeded. The pg-spgist_hamming extension should now be installed.
 
+### A few more installations
 Finally, before moving on to the next step, install *Python*. Then install both the *imagehash* and *psycopg2*(which allows us to connect to Postgres through Python) libraries through *pip*.
 ```bash
 apt install python3 python3-pip
@@ -132,21 +151,12 @@ Unfortunately, the looping step is going to be dependent on the technicalities o
 
 First though, because we are using PostgreSQL which is a schema-enforced database, we need to define what our table will look like.
 
-#### Some More Database Setup
+#### Creating a table
 <div id="connect">First, connect to the PostgreSQL:</div>
 
 ```bash
 sudo -u postgres psql
 ```
-After running this command, your command prompt should change to ```postgres=#``` to show that you are connected to the "postgres" database. In this tutorial I am leaving the command prompt bit off commands so that they are more easily copied.
-
-First, we'll create a password for the postgres user.
-```sql
-ALTER USER postgres PASSWORD 'mypassword';
-```
-<div id="password">Obviously, you'll replace mypassword with a secure password for your database. </div>
-
->By default, PostgreSQL does not allow connections from external hosts, but it's still a good practice to set a password.
 
 Now you need to create the table that will store your hashes. Here is the basic table we'll use for this tutorial:
 | Column | Type |
@@ -170,7 +180,6 @@ CREATE TABLE hashes (
 CREATE TABLE
 ```
 
-
 > This table is another thing that depends on your requirements. If you need to store more data than just the hash and a URL, you can certainly add more columns alongside these ones.
 </div>
 
@@ -185,7 +194,8 @@ CREATE EXTENSION
 CREATE INDEX
 ```
 Now the database is truly all setup, and we can move on to the Python code.
-#### Populating the Database
+
+### Populating the Database
 Again, I'll be assuming that you have a directory of images you are iterating over, but you can modify this code to your needs.
 
 > **You must have already installed the [postgresql-server-dev](#build-tools) package in the previous step for the psycopg2 package to install correctly.**
@@ -291,7 +301,7 @@ The database should now be all setup! Now you can skip to [Step 3](#step-3), whe
 
 <div id="step-3">
 
-## Step 3 - Querying the database
+## Step 3 - Querying the Database
 In this section, you'll learn how you can quickly query the database that you constructed in steps 1 and 2.
 
 Here is the basic Postgres SQL command you can use to query the database.
