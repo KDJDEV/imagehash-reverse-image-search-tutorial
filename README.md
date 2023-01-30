@@ -354,8 +354,9 @@ with open(fileName, "rb") as imageBinary:
         urls = [x[0] for x in hashRows]
         print(urls)
 ```
+>You'll want to replace "mypassword" with [the password you set earlier](#password).
 
-> You'll notice that the way we connect to the database and compute the hashes is exactly the same as in the previous section when we populated the database.
+> If you followed the [Custom Database](#custom-database) section in the previous step, you'll notice that the way we connect to the database and compute the hashes is exactly the same as when we populated the database.
 
 This code reads an image from a file and searches for it in the database. It will return the *url* column of any images found, though of course if you decided to add more [metadata alongside your image](#database-metadata) you can return that as well.
 
